@@ -17,7 +17,7 @@ import dj_database_url
 # .env config:
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
-
+print(os.getenv('ENV'))
 # Determine if we are on local or production
 if os.getenv('ENV') == 'development':
   # If we are on development, use the `DB_NAME_DEV` value
