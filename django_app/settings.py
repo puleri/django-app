@@ -38,9 +38,7 @@ else:
   # Set debug to false
   DEBUG = False
   # Only allow the `CLIENT_ORIGIN` for CORS
-  CORS_ORIGIN_WHITELIST = [
-    os.getenv('https://puleri.github.io/django-app-react/')
-  ]
+  CORS_ORIGIN_WHITELIST = ['https://puleri.github.io/django-app-react/']
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
