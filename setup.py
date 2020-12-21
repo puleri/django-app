@@ -20,7 +20,7 @@ setup(
     long_description=README,
     author='Matthew Puleri',
     author_email='puleri.mp4@gmail.com',
-    url='https://github.com/puleri/django-app',
+    url= <'https://github.com/puleri/django-app'>,
     license=LICENSE,
     packages=find_packages(exclude=('tests', 'docs'))
 )
