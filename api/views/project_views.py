@@ -22,4 +22,47 @@ class Projects (generics.ListCreateAPIView):
 
     request.data['project']['owner'] = request.user.id
     # Serialize/Create Project
-    project = ProjectSerializer(data=request.data)
+    project = ProjectSerializer(data=request.data['project'])
+    if project.is_valid():
+      project.save()
+      return Response(project.data, status=status.HTTP_201_CREATED)
+    else:
+      return Response(project.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ProjectDetail(generics.RetrieveUpdateDestroyAPIView):
+  def get(self, request, pk):
+    project = get_object_or_404(Project, pk=pk)
+    data = ProjectSerializer(project).data
+
+    if not data['owner'] == request.user.id:
+      raise PermissionDenied('Not your project. Permisison denied.')
+
+    return Response(data)
+
+  def delete(self, request, pk):
+    # Delete request
+    project = get_object_or_404(Project, pk=pk)
+    data = ProjectSerializer(project).data
+    if not data['owner'] == request.user.id:
+      raise PermissionDenied('Permission denied. This is not your project.')
+    else:
+      project.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+  def partial_update(self, request, pk):
+    # Update request
+    if request.data['project'].get('owner', False):
+      del request.data['project']['owner']
+
+    project = get_object_or_404(Project, pk=pk)
+
+    if not request.user.id == project.owner.id:
+      raise PermissionDenied('Unauthorized, you do not own this project.')
+
+    request.data['project']['owner'] = request.user.id
+
+    ps = ProjectSerializer(project, data=request.data['project'])
+    if ps.is_valid():
+      ps.save()
+      return Response(ps.data)
+    return Response(ps.errors, status.HTTP_400_BAD_REQUEST)

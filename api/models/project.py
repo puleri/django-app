@@ -1,18 +1,24 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth import get_user_model
 
 # Project class
 class Project(models.Model):
   name = models.CharField(max_length=100)
   completed = models.BooleanField()
-  priority = (
-    ('Must'),
-    ('Should'),
-    ('Could'),
-    ('Would'),
+  MUST = 'Must'
+  SHOULD = 'Should'
+  COULD = 'Could'
+  WOULD = 'Would'
+  PRIORITY = (
+    (MUST, 'Must'),
+    (SHOULD, 'Should'),
+    (COULD, 'Could'),
+    (WOULD, 'Would'),
   )
+  priority = models.CharField(max_length=6, choices=PRIORITY, default=MUST)
   deadline = models.DateField()
-  time_estimate = models.IntegerField()
+  time_estimate = models.IntegerField(default=1, validators=[MaxValueValidator(5), MinValueValidator(1)])
   description = models.TextField()
   owner = models.ForeignKey(
     get_user_model(),

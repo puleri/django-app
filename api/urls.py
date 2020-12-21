@@ -1,7 +1,7 @@
 from django.urls import path
 from .views.mango_views import Mangos, MangoDetail
 from .views.user_views import SignUp, SignIn, SignOut, ChangePassword
-from .views.project_views import Projects
+from .views.project_views import Projects, ProjectDetail
 
 urlpatterns = [
   	# Restful routing
