@@ -12,4 +12,5 @@ urlpatterns = [
     path('sign-out/', SignOut.as_view(), name='sign-out'),
     path('change-pw/', ChangePassword.as_view(), name='change-pw'),
     path('projects/', Projects.as_view(), name='projects'),
+    path('projects/<int:pk>/', ProjectDetail.as_view(), name='project_detail'),
 ]

@@ -34,7 +34,7 @@ class ProjectDetail(generics.RetrieveUpdateDestroyAPIView):
     project = get_object_or_404(Project, pk=pk)
     data = ProjectSerializer(project).data
 
-    if not data['owner'] == request.user.id:
+    if not project.owner.id == request.user.id:
       raise PermissionDenied('Not your project. Permisison denied.')
 
     return Response(data)
@@ -43,7 +43,7 @@ class ProjectDetail(generics.RetrieveUpdateDestroyAPIView):
     # Delete request
     project = get_object_or_404(Project, pk=pk)
     data = ProjectSerializer(project).data
-    if not data['owner'] == request.user.id:
+    if not project.owner.id == request.user.id:
       raise PermissionDenied('Permission denied. This is not your project.')
     else:
       project.delete()
