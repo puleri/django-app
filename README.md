@@ -40,6 +40,7 @@ Commands are run with the syntax `python3 manage.py <command>`:
 | `makemigrations`  | Generate migration files based on changes to models  |
 | `migrate`  | Run migration files to migrate changes to db  |
 | `startapp`  | Create a new app  |
+| `git push heroku main`  | Deploy  |
 
 ## Future iterations
 
