@@ -1,5 +1,10 @@
 
 # Zone Back-End (Django)
+Links:
+Front end repo: https://github.com/puleri/django-app-react
+Front end deployed: https://puleri.github.io/django-app-react/#/
+Back end repo: https://github.com/puleri/django-app
+Back end deployed: https://glacial-cove-65868.herokuapp.com/
 
 ## Summary
 
