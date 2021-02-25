@@ -1,10 +1,10 @@
-curl "http://localhost:8000/projects/${ID}/tasks" \
+curl "http://localhost:8000/projects/${ID}/tasks/" \
   --include \
-  --request PATCH \
+  --request POST \
   --header "Content-Type: application/json" \
   --header "Authorization: Token ${TOKEN}" \
   --data '{
-    "project": {
+    "task": {
       "name": "'"${NAME}"'",
       "completed": "'"${COMPLETED}"'",
       "priority": "'"${PRIORITY}"'",

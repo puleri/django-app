@@ -4,6 +4,7 @@ from rest_framework import serializers
 from .models.mango import Mango
 from .models.user import User
 from .models.project import Project
+from .models.task import Task
 
 class MangoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -50,4 +51,9 @@ class ChangePasswordSerializer(serializers.Serializer):
 class ProjectSerializer(serializers.ModelSerializer):
   class Meta:
       model = Project
+      fields = ('id', 'name', 'completed', 'priority', 'deadline', 'time_estimate', 'description', 'owner')
+
+class TaskSerializer(serializers.ModelSerializer):
+  class Meta:
+      model = Task
       fields = ('id', 'name', 'completed', 'priority', 'deadline', 'time_estimate', 'description', 'owner')

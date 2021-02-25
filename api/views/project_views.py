@@ -50,19 +50,26 @@ class ProjectDetail(generics.RetrieveUpdateDestroyAPIView):
     return Response(status=status.HTTP_204_NO_CONTENT)
 
   def partial_update(self, request, pk):
-    # Update request
-    if request.data['project'].get('owner', False):
-      del request.data['project']['owner']
-
-    project = get_object_or_404(Project, pk=pk)
-
-    if not request.user.id == project.owner.id:
-      raise PermissionDenied('Unauthorized, you do not own this project.')
-
-    request.data['project']['owner'] = request.user.id
-
-    ps = ProjectSerializer(project, data=request.data['project'])
-    if ps.is_valid():
-      ps.save()
-      return Response(ps.data)
-    return Response(ps.errors, status.HTTP_400_BAD_REQUEST)
+      """Update Request"""
+      # Remove owner from request object
+      # This "gets" the owner key on the data['mango'] dictionary
+      # and returns False if it doesn't find it. So, if it's found we
+      # remove it.
+      if request.data['project'].get('owner', False):
+          del request.data['project']['owner']
+      # Locate Mango
+      # get_object_or_404 returns a object representation of our Mango
+      project = get_object_or_404(Project, pk=pk)
+      # Check if user is the same as the request.user.id
+      if not request.user.id == project.owner.id:
+          raise PermissionDenied('Unauthorized, you do not own this project')
+      # Add owner to data object now that we know this user owns the resource
+      request.data['project']['owner'] = request.user.id
+      # Validate updates with serializer
+      data = ProjectSerializer(project, data=request.data['project'])
+      if data.is_valid():
+          # Save & send a 204 no content
+          data.save()
+          return Response(status=status.HTTP_204_NO_CONTENT)
+      # If the data is not valid, return a response with the errors
+      return Response(data.errors, status=status.HTTP_400_BAD_REQUEST)
